@@ -1,25 +1,27 @@
 fun main() {
 //    println("Program arguments: ${args.joinToString()}")
+    dataTypes()
+    arithmeticOperators()
+    relationalOperators()
+    assignmentOperators()
+    unaryOperators()
+    logicalOperators()
+    bitwiseOperators()
+    booleanOperators()
+    stringTemplates()
+    arrays()
+    ranges()
+    sumTwo(1,2)
+    sumTwoUnit(1,2)
+    println(factorial(5))
+    println(tailRecursionFactorial(10))
+    println(higherOrderFunction())
+    println(higherOrderFunction1())
+    inlineFunction()
+    lambdaFunction()
+}
 
-    // val cannot change
-    val hello: String  = "Welcome to kotlin!"
-    println(hello)
-
-    // var can change
-    var helloWorld: String  = "Hello, World!"
-    helloWorld = "Hello"
-    println(helloWorld)
-    println()
-
-    // print() vs println()
-    println("Hello,")
-    println(" world!")
-
-    println()
-    print("Hello,"); // kotlin can run with ot without semicolon
-    print(" world!")
-    println()
-
+fun dataTypes() {
     // Data types
     val a: Int = 10000
     val d: Double = 100.00
@@ -27,7 +29,6 @@ fun main() {
     val l: Long = 1000000004
     val s: Short = 10
     val b: Byte = 1
-
 
     println()
     println("Int Value is $a")
@@ -40,15 +41,6 @@ fun main() {
     // Char
     val letter: Char = 'A'
     println("Char value is $letter")
-    println()
-
-    // String
-    val escapedString : String  = "I am escaped String!\n"
-    val rawString :String  = """This is going to be a
-                               multi-line string and will
-                               not have any escape sequence""";
-    print(escapedString)
-    println(rawString)
     println()
 
     // Boolean
@@ -72,16 +64,6 @@ fun main() {
     val y: Long = x.toLong()  // Not valid assignment
     println(y)
     println()
-
-    arithmeticOperators()
-    relationalOperators()
-    assignmentOperators()
-    unaryOperators()
-    logicalOperators()
-    bitwiseOperators()
-    booleanOperators()
-    stringTemplates()
-    arrays()
 }
 
 fun arithmeticOperators() {
@@ -192,6 +174,14 @@ fun booleanOperators() {
 }
 
 fun stringTemplates() {
+    val escapedString : String  = "I am escaped String!\n"
+    val rawString :String  = """This is going to be a
+                               multi-line string and will
+                               not have any escape sequence""";
+    print(escapedString)
+    println(rawString)
+    println()
+
     val name : String = "Zara Ali"
     println("Name  - $name")  // Using template with variable name
     println("Name length - ${name.length}")  // Using template with expression.
@@ -285,4 +275,125 @@ fun arrays() {
     longArrayOf()
 
     println()
+}
+
+fun ranges() {
+    for ( num in 1.rangeTo(4) ) {
+        println(num)
+    }
+
+    for ( num in 1..4 ) {
+        println(num)
+    }
+
+    for ( num in 4 downTo 1 ) {
+        println(num)
+    }
+
+    for ( num in 1 until 5 ) {
+        println(num)
+    }
+
+    for ( num in 1..10 step 2 ) {
+        println(num)
+    }
+
+    for ( ch in 'a'..'d' ) {
+        println(ch)
+    }
+
+    for ( num in (1..5).reversed() ) {
+        println(num)
+    }
+
+    println((5..10).first)
+    println((5..10 step 2).step)
+    println((5..10).reversed().last)
+
+    val a = 1..10
+    val f = a.filter { T -> T % 2 == 0 }
+    println(f)
+
+    val b = listOf(1, 1, 2, 4, 4, 6, 10)
+    println(b.distinct())
+
+    println(a.minOrNull())
+    println(a.maxOrNull())
+    println(a.sum())
+    println(a.average())
+    println(a.count())
+    println()
+}
+
+fun sumTwo(a:Int, b:Int):Int{
+    val x = a + b
+    return x
+}
+
+// If a function does not return a useful value, its return type is Unit. Unit is a type with only one value which is Unit.
+fun sumTwoUnit(a:Int, b:Int):Unit{
+    val x = a + b
+    println(x)
+}
+
+// Recursion
+fun factorial(a:Int):Int{
+    val result:Int = if( a <= 1){
+        a
+    } else {
+        a*factorial(a-1)
+    }
+    return result
+}
+
+// A recursive function is eligible for tail recursion if the function call to itself is the last operation it performs.
+// Kotlin tail recursion is useful while calculating factorial or some other processing on large numbers.
+// So to avoid java.lang.StackOverflowError, you must use tail recursion.
+fun tailRecursionFactorial(a: Int, ac: Int = 1): Int {
+    val result = a * ac
+    return if (a <= 1) {
+        result
+    } else {
+        tailRecursionFactorial(a - 1, result)
+    }
+}
+
+
+// Higher order functions
+// A higher-order function is a function that takes another function as parameter and/or returns a function.
+// the function argument ::sum. Here :: is the notation that references a function by name in Kotlin.
+fun higherOrderFunction() {
+    calculate(1, 2, ::add)
+}
+fun add(a: Int, b: Int) = a + b
+fun calculate(a: Int, b: Int, operation:(Int, Int) -> Int): Int {
+    return operation(a, b)
+}
+
+fun higherOrderFunction1() {
+    val func = operation()
+    println( func(4) )
+}
+fun square(x: Int) = x * x
+fun operation(): (Int) -> Int {
+    return ::square
+}
+
+// Kotlin lambda is a function which has no name and defined with a curly braces {} which takes zero or more parameters and body of function.
+// The body of function is written after variable (if any) followed by -> operator.
+fun lambdaFunction() {
+    val upperCase = { str: String -> str.toUpperCase() }
+    println( upperCase("hello, world!") )
+}
+
+// inline function tells the compiler to copy parameters and functions to the call site.
+// use of inline function enhances the performance of higher order function.
+fun inlineFunction() {
+    myFunction({println("Inline function parameter")})
+}
+
+inline fun myFunction(function:()-> Unit){
+    println("I am inline function - A")
+    function()
+    println("I am inline function - B")
 }
