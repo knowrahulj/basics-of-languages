@@ -4,6 +4,7 @@ fun main() {
     expressionInWhen()
     forLoop()
     whileLoop()
+    breakAndContinue()
 }
 
 fun ifelse() {
